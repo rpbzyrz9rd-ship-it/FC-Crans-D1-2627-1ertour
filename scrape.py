@@ -12,14 +12,6 @@ What it does:
 
 Because the site only shows one matchday at a time, this script is meant to be run
 on a schedule (e.g. daily via GitHub Actions) so nothing gets missed between visits.
-
-NOTE ON ROBUSTNESS:
-This was built from the page's rendered content rather than a look at its raw HTML
-tags, so the exact CSS/structure assumptions below (in particular, how "sections"
-are delimited) are a best first attempt. If FC Crans' club id, ACVF site id, or the
-group name changes, or if the site's markup differs from what's assumed here, you
-may need to adjust CONFIG below or the parsing logic in extract_section().
-Run with --debug to print diagnostic info about what was found.
 """
 
 import json
@@ -28,22 +20,15 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import requests
 from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
 
 # ---------------------------------------------------------------------------
 # CONFIG - edit these if needed
 # ---------------------------------------------------------------------------
 
-# The club-wide "Resultats + classements" page. This lists all FC Crans teams'
-# current matchday fixtures/results in one page (server-rendered, no JS needed).
 RESULTS_URL = "https://matchcenter-acvf.football.ch/default.aspx?v=1058&oid=16&lng=2&a=rr"
-
-# Text that must ALL appear in a section heading to identify our group.
-# Adjust if the official group name changes between seasons.
 SECTION_KEYWORDS = ["Juniors D-9", "1er degr"]  # "1er degr" matches degré/degre spelling
-
-# Our team's exact display name as it appears on the site.
 OUR_TEAM = "FC Crans I"
 
 DATA_DIR = Path(__file__).parent
@@ -56,33 +41,28 @@ MATCH_LINK_RE = re.compile(
 )
 TG_RE = re.compile(r"[?&]tg=(\d+)")
 
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept": (
-        "text/html,application/xhtml+xml,application/xml;q=0.9,"
-        "image/webp,*/*;q=0.8"
-    ),
-    "Accept-Language": "fr-CH,fr;q=0.9,en;q=0.8",
-    "Referer": "https://matchcenter-acvf.football.ch/",
-}
+USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+)
 
 
 def fetch_page(url: str) -> str:
-    resp = requests.get(url, headers=HEADERS, timeout=30)
-    resp.raise_for_status()
-    resp.encoding = resp.apparent_encoding or resp.encoding
-    return resp.text
+    """
+    Fetch the page using a real (headless) browser rather than a plain HTTP
+    request. The site returns 403 Forbidden to plain scripted requests,
+    but allows an actual browser through.
+    """
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page(user_agent=USER_AGENT, locale="fr-CH")
+        page.goto(url, wait_until="networkidle", timeout=45000)
+        html = page.content()
+        browser.close()
+    return html
 
 
 def find_section_root(soup: BeautifulSoup):
-    """
-    Locate the heading element whose text contains all SECTION_KEYWORDS, then
-    return the list of sibling elements that make up that section (everything
-    up to, but not including, the next heading of the same tag name).
-    """
     heading_tags = ["h1", "h2", "h3", "h4", "h5", "strong", "b"]
     candidates = soup.find_all(heading_tags)
 
@@ -96,12 +76,9 @@ def find_section_root(soup: BeautifulSoup):
     if target is None:
         return None, []
 
-    # Collect subsequent siblings/elements until we hit another heading of the
-    # same tag name (i.e. the start of the next section).
     section_elements = []
     for el in target.find_all_next():
         if el.name == target.name and el is not target:
-            # Reached the next section's heading - stop.
             break
         section_elements.append(el)
 
@@ -109,10 +86,6 @@ def find_section_root(soup: BeautifulSoup):
 
 
 def parse_matches(section_elements) -> list:
-    """
-    Walk through the section, tracking the current date, and pull out each
-    match link (identified by an href containing tg=...).
-    """
     matches = []
     current_date = None
 
@@ -169,7 +142,6 @@ def save_history(history: dict) -> None:
 
 
 def merge_matches(history: dict, new_matches: list) -> int:
-    """Merge newly-scraped matches into history, keyed by tg_id. Returns count of changes."""
     changes = 0
     for match in new_matches:
         key = match["tg_id"]
@@ -181,20 +153,13 @@ def merge_matches(history: dict, new_matches: list) -> int:
 
 
 def compute_table(history: dict) -> list:
-    """Build standings from every played match in history."""
     teams = {}
 
     def get_team(name):
         if name not in teams:
             teams[name] = {
-                "team": name,
-                "played": 0,
-                "won": 0,
-                "drawn": 0,
-                "lost": 0,
-                "gf": 0,
-                "ga": 0,
-                "pts": 0,
+                "team": name, "played": 0, "won": 0, "drawn": 0,
+                "lost": 0, "gf": 0, "ga": 0, "pts": 0,
             }
         return teams[name]
 
@@ -311,8 +276,7 @@ def main():
     if not new_matches:
         print(
             "WARNING: no matches parsed. The section was found but no match links "
-            "matched the expected pattern - the HTML structure may differ from what "
-            "this script assumes. Run with --debug and inspect the page source.",
+            "matched the expected pattern.",
             file=sys.stderr,
         )
 
