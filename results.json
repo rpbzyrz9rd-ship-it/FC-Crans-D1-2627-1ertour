@@ -1,0 +1,42 @@
+{
+  "4376326": {
+    "away": "JA - Chêne Aubonne I",
+    "away_score": 2,
+    "date": "22.08.2026",
+    "home": "FC Crans I",
+    "home_score": 5,
+    "played": true,
+    "tg_id": "4376326",
+    "time": "10:45"
+  },
+  "4376327": {
+    "away": "FC Stade Nyonnais I",
+    "away_score": 0,
+    "date": "22.08.2026",
+    "home": "FC Stade-Lausanne-Ouchy II",
+    "home_score": 8,
+    "played": true,
+    "tg_id": "4376327",
+    "time": "10:30"
+  },
+  "4376328": {
+    "away": "US Terre Sainte I",
+    "away_score": 6,
+    "date": "22.08.2026",
+    "home": "FC Genolier-Begnins I",
+    "home_score": 1,
+    "played": true,
+    "tg_id": "4376328",
+    "time": "10:45"
+  },
+  "4376329": {
+    "away": "Prangins Sport I",
+    "away_score": 2,
+    "date": "22.08.2026",
+    "home": "FC Gland I",
+    "home_score": 12,
+    "played": true,
+    "tg_id": "4376329",
+    "time": "08:45"
+  }
+}
