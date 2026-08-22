@@ -56,7 +56,18 @@ MATCH_LINK_RE = re.compile(
 )
 TG_RE = re.compile(r"[?&]tg=(\d+)")
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FCCransTableBot/1.0)"}
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/webp,*/*;q=0.8"
+    ),
+    "Accept-Language": "fr-CH,fr;q=0.9,en;q=0.8",
+    "Referer": "https://matchcenter-acvf.football.ch/",
+}
 
 
 def fetch_page(url: str) -> str:
