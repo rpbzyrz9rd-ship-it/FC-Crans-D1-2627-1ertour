@@ -101,11 +101,11 @@
   },
   "4376336": {
     "away": "FC Bursins-Rolle-Perroy I",
-    "away_score": null,
+    "away_score": 1,
     "date": "05.09.2026",
     "home": "FC Stade-Lausanne-Ouchy II",
-    "home_score": null,
-    "played": false,
+    "home_score": 4,
+    "played": true,
     "tg_id": "4376336",
     "time": "10:30"
   },
