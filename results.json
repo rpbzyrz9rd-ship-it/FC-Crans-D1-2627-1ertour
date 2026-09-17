@@ -191,11 +191,11 @@
   },
   "4376345": {
     "away": "FC Stade-Lausanne-Ouchy II",
-    "away_score": null,
+    "away_score": 3,
     "date": "16.09.2026",
     "home": "FC Gingins I",
-    "home_score": null,
-    "played": false,
+    "home_score": 3,
+    "played": true,
     "tg_id": "4376345",
     "time": "18:30"
   }
