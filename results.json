@@ -1,11 +1,11 @@
 {
   "4376325": {
     "away": "FC Gingins I",
-    "away_score": null,
+    "away_score": 4,
     "date": "23.09.2026",
     "home": "FC Bursins-Rolle-Perroy I",
-    "home_score": null,
-    "played": false,
+    "home_score": 0,
+    "played": true,
     "tg_id": "4376325",
     "time": "19:00"
   },
