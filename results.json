@@ -248,5 +248,65 @@
     "played": true,
     "tg_id": "4376349",
     "time": "10:00"
+  },
+  "4376350": {
+    "away": "FC Stade Nyonnais I",
+    "away_score": null,
+    "date": "26.09.2026",
+    "home": "FC Gingins I",
+    "home_score": null,
+    "played": false,
+    "tg_id": "4376350",
+    "time": "08:45"
+  },
+  "4376351": {
+    "away": "Chêne Aubonne I - US Terre Sainte I",
+    "away_score": null,
+    "date": "26.09.2026",
+    "home": "JA",
+    "home_score": null,
+    "played": false,
+    "tg_id": "4376351",
+    "time": "08:45"
+  },
+  "4376352": {
+    "away": "Prangins Sport I",
+    "away_score": null,
+    "date": "26.09.2026",
+    "home": "FC Bursins-Rolle-Perroy I",
+    "home_score": null,
+    "played": false,
+    "tg_id": "4376352",
+    "time": "10:30"
+  },
+  "4376353": {
+    "away": "FC Gland I",
+    "away_score": null,
+    "date": "26.09.2026",
+    "home": "FC Crans I",
+    "home_score": null,
+    "played": false,
+    "tg_id": "4376353",
+    "time": "10:45"
+  },
+  "4376354": {
+    "away": "FC Genolier-Begnins I",
+    "away_score": null,
+    "date": "26.09.2026",
+    "home": "FC Stade-Lausanne-Ouchy II",
+    "home_score": null,
+    "played": false,
+    "tg_id": "4376354",
+    "time": "10:30"
+  },
+  "4376357": {
+    "away": "FC Crans I",
+    "away_score": null,
+    "date": "28.09.2026",
+    "home": "Prangins Sport I",
+    "home_score": null,
+    "played": false,
+    "tg_id": "4376357",
+    "time": "18:15"
   }
 }
