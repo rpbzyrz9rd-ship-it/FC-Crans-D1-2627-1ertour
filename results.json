@@ -281,21 +281,21 @@
   },
   "4376353": {
     "away": "FC Gland I",
-    "away_score": null,
+    "away_score": 3,
     "date": "26.09.2026",
     "home": "FC Crans I",
-    "home_score": null,
-    "played": false,
+    "home_score": 8,
+    "played": true,
     "tg_id": "4376353",
     "time": "10:45"
   },
   "4376354": {
     "away": "FC Genolier-Begnins I",
-    "away_score": null,
+    "away_score": 0,
     "date": "26.09.2026",
     "home": "FC Stade-Lausanne-Ouchy II",
-    "home_score": null,
-    "played": false,
+    "home_score": 2,
+    "played": true,
     "tg_id": "4376354",
     "time": "10:30"
   },
