@@ -348,5 +348,15 @@
     "played": true,
     "tg_id": "4376359",
     "time": "09:00"
+  },
+  "4376362": {
+    "away": "US Terre Sainte I",
+    "away_score": null,
+    "date": "07.10.2026",
+    "home": "FC Crans I",
+    "home_score": null,
+    "played": false,
+    "tg_id": "4376362",
+    "time": "18:15"
   }
 }
